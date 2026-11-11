@@ -24,7 +24,9 @@ Carpetas antiguas: en `<proyecto>/legacy/`. No se borra nada sin revisar.
 - P3: `C:\Users\sebas\.venvs\p3-popayan`
 
 Python 3.11. Ejecutar siempre con `<venv>/Scripts/python.exe` desde la raíz del proyecto.
-Blender 4.4: `C:\Program Files\Blender Foundation\Blender 4.4\blender.exe`.
+Blender: **no hay instalación utilizable** (comprobado el 2026-11-11: la carpeta
+`C:\Program Files\Blender Foundation\Blender 4.4\` existe pero no contiene `blender.exe`).
+Hasta reinstalarlo, todo lo que dependa de Blender queda `BLOQUEADO`.
 
 ## Reglas para todos los agentes
 
