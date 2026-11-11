@@ -1,0 +1,90 @@
+{
+  "_aviso": "NODOS FICTICIOS PARA SIMULACION. Las cinco estaciones civiles tienen coordenadas inventadas con una regla geometrica (desplazamientos de ~2.5 km desde un punto publico de referencia); no corresponden a equipos, sedes ni sensores reales. Los dos nodos institucionales son abstractos: no tienen ubicacion geografica y no representan posiciones, equipos, bases ni unidades reales. No se consulto ni se estimo ninguna ubicacion de instalaciones militares o policiales.",
+  "reference_point": {"name": "Parque Caldas (referencia publica)", "latitude": 2.4419, "longitude": -76.6063},
+  "stations": [
+    {
+      "station_id": "CIV-01",
+      "category": "civil_ficticia",
+      "name": "Estacion civil ficticia Norte",
+      "simulated_environment": "periurbano norte (simulado)",
+      "virtual_sensors": ["remote_id", "acoustic"],
+      "status": "online",
+      "data_quality": 0.9,
+      "latitude": 2.4645,
+      "longitude": -76.6063,
+      "notes": "Coordenada ficticia: referencia + 2.5 km al norte."
+    },
+    {
+      "station_id": "CIV-02",
+      "category": "civil_ficticia",
+      "name": "Estacion civil ficticia Centro",
+      "simulated_environment": "urbano denso (simulado)",
+      "virtual_sensors": ["remote_id", "acoustic", "optical"],
+      "status": "online",
+      "data_quality": 0.85,
+      "latitude": 2.4425,
+      "longitude": -76.605,
+      "notes": "Coordenada ficticia: cercana al punto de referencia."
+    },
+    {
+      "station_id": "CIV-03",
+      "category": "civil_ficticia",
+      "name": "Estacion civil ficticia Sur",
+      "simulated_environment": "residencial sur (simulado)",
+      "virtual_sensors": ["remote_id", "acoustic"],
+      "status": "online",
+      "data_quality": 0.9,
+      "latitude": 2.4193,
+      "longitude": -76.6063,
+      "notes": "Coordenada ficticia: referencia - 2.5 km al sur."
+    },
+    {
+      "station_id": "CIV-04",
+      "category": "civil_ficticia",
+      "name": "Estacion civil ficticia Oriente",
+      "simulated_environment": "ladera oriental (simulado)",
+      "virtual_sensors": ["remote_id", "rf"],
+      "status": "online",
+      "data_quality": 0.8,
+      "latitude": 2.4419,
+      "longitude": -76.5838,
+      "notes": "Coordenada ficticia: referencia + 2.5 km al oriente."
+    },
+    {
+      "station_id": "CIV-05",
+      "category": "civil_ficticia",
+      "name": "Estacion civil ficticia Occidente",
+      "simulated_environment": "periurbano occidental (simulado)",
+      "virtual_sensors": ["remote_id", "acoustic"],
+      "status": "online",
+      "data_quality": 0.88,
+      "latitude": 2.4419,
+      "longitude": -76.6288,
+      "notes": "Coordenada ficticia: referencia - 2.5 km al occidente."
+    },
+    {
+      "station_id": "INST-SIM-01",
+      "category": "institucional_abstracta",
+      "name": "Nodo institucional abstracto 01",
+      "simulated_environment": "nodo logico sin ubicacion (simulado)",
+      "virtual_sensors": ["remote_id"],
+      "status": "online",
+      "data_quality": 0.95,
+      "latitude": null,
+      "longitude": null,
+      "notes": "Fuente de datos abstracta. Sin ubicacion geografica. No representa ninguna instalacion real."
+    },
+    {
+      "station_id": "INST-SIM-02",
+      "category": "institucional_abstracta",
+      "name": "Nodo institucional abstracto 02",
+      "simulated_environment": "nodo logico sin ubicacion (simulado)",
+      "virtual_sensors": ["remote_id", "radar"],
+      "status": "online",
+      "data_quality": 0.95,
+      "latitude": null,
+      "longitude": null,
+      "notes": "Fuente de datos abstracta. Sin ubicacion geografica. No representa ninguna instalacion real."
+    }
+  ]
+}

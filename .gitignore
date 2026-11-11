@@ -1,0 +1,49 @@
+# Entornos y cachés
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Secretos
+.env
+*.key
+*.pem
+
+# Datasets y artefactos pesados (no se suben)
+**/data/raw/
+**/data/interim/
+**/data/processed/
+**/data/runtime/
+**/datasets/*
+!**/datasets/.gitkeep
+**/modelos/*
+!**/modelos/.gitkeep
+**/resultados/*
+!**/resultados/.gitkeep
+*.sqlite
+*.sqlite3
+*.db
+*.onnx
+*.pt
+*.pth
+*.joblib
+*.pkl
+*.tgz
+*.tar.gz
+*.zip
+*.osm.pbf
+*.parcial
+*.blend1
+
+# Registros de ejecución
+logs/
+descargas_manifest.json
+
+# Herramientas locales
+.claude/settings.local.json
+graphify-out/
+.DS_Store
+Thumbs.db
