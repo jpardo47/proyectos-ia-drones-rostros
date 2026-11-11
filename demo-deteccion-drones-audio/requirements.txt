@@ -1,0 +1,17 @@
+# P2 — clasificador acústico drone/no_drone (CPU, sin torch). Python 3.11.
+# Versiones probadas el 2026-11-11 en C:\Users\sebas\.venvs\p2-audio
+numpy==2.4.6
+scipy==1.17.1
+soundfile==0.14.0
+scikit-learn==1.9.1
+joblib==1.6.0
+pandas==3.1.1
+jsonschema==4.26.0
+fastapi==0.162.4
+uvicorn==0.54.0
+python-multipart==0.0.33
+# pruebas
+pytest==9.2.0
+httpx==0.28.1
+# opcional: instalado pero NO usado (log-mel/MFCC implementados con scipy para evitar numba)
+# librosa==0.11.0
