@@ -109,6 +109,7 @@ def run_demo(
         valid_observations = 0
         alerts_seen: set[str] = set()
         decisions_seen: set[str] = set()
+        reached: dict[str, set[str]] = {}  # estado -> tracks que lo alcanzaron en algún momento
 
         def _reject(r: RejectedInput) -> None:
             store.save_rejected(r)
@@ -146,6 +147,8 @@ def run_demo(
             accepted_pipeline += len(out.accepted)
             alerts_seen.update(a.alert_id for a in out.alerts)
             decisions_seen.update(d.decision_id for d in out.decisions)
+            for d in out.decisions:
+                reached.setdefault(d.state.value, set()).add(d.track_id)
             store.save_pipeline_result(out)
 
         tracks = store.list_tracks()
@@ -171,6 +174,7 @@ def run_demo(
             "duplicates": duplicates,
             "tracks": len(tracks),
             "tracks_by_state": dict(sorted(by_state.items())),
+            "tracks_reached_state": {k: len(v) for k, v in sorted(reached.items())},
             "decisions": len(decisions_seen),
             "alerts": len(alerts_seen),
             "batches": total_batches,

@@ -37,7 +37,11 @@ def _print_summary(s: dict) -> None:
     for code, n in s["rejected_by_code"].items():
         print(f"   - {code}: {n}")
     print(f"Tracks:                   {s['tracks']}")
+    print("   Estado final (tras agotar el tiempo de caducidad al terminar el escenario):")
     for state, n in s["tracks_by_state"].items():
+        print(f"   - {state}: {n}")
+    print("   Estados alcanzados durante el escenario (tracks que pasaron por cada uno):")
+    for state, n in s.get("tracks_reached_state", {}).items():
         print(f"   - {state}: {n}")
     print(f"Decisiones:               {s['decisions']}")
     print(f"Alertas informativas:     {s['alerts']} (requieren revision humana)")
