@@ -73,7 +73,14 @@ def cmd_api(args: argparse.Namespace) -> int:
 
 
 def cmd_dashboard(args: argparse.Namespace) -> int:
-    cmd = [sys.executable, "-m", "streamlit", "run", str(ROOT / "src" / "dashboard" / "app.py")]
+    # Solo en la máquina local: sin --server.address Streamlit escucha en todas las interfaces de red.
+    cmd = [
+        sys.executable, "-m", "streamlit", "run", str(ROOT / "src" / "dashboard" / "app.py"),
+        "--server.address", "127.0.0.1", "--browser.gatherUsageStats", "false",
+        # Sin modo headless, la primera ejecución de Streamlit se detiene a pedir un correo.
+        "--server.headless", "true",
+    ]
+    print("Dashboard de la demo (DATOS SIMULADOS). Abra http://127.0.0.1:8501 en el navegador.")
     return subprocess.call(cmd, cwd=str(ROOT))
 
 
