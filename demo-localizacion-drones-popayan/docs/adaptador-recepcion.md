@@ -131,5 +131,5 @@ cada uno con el motivo esperado en su identificador).
 ## 6. Pruebas
 
 ```bash
-C:/Users/sebas/.venvs/p3-popayan/Scripts/python.exe -m pytest tests/remote_id tests/ingestion
+~/.venvs/p3-popayan/Scripts/python.exe -m pytest tests/remote_id tests/ingestion
 ```

@@ -105,7 +105,8 @@ rendimiento real.
 ## Pendiente del plan maestro
 
 - Publicación en GitHub (requiere autenticación y autorización expresa).
-- Antes de publicar: sustituir las rutas con el nombre de usuario local que aparecen en algunos
-  README y docs.
+- Las rutas con el nombre de usuario local ya se sustituyeron por `~/.venvs/...` y
+  `%USERPROFILE%\.venvs\...` en los archivos actuales. Siguen presentes en commits anteriores del
+  historial; si el repositorio llegara a hacerse público, habría que reescribir ese historial.
 - Capa cartográfica sin conexión de Popayán (hoy el mapa usa teselas públicas en línea).
 - Conectar la exportación de P2 con la ingesta de P3 en una prueba conjunta.

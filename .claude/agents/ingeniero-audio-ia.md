@@ -10,7 +10,7 @@ Eres `ingeniero-audio-ia` (O1). Proyecto: `demo-deteccion-drones-audio/` (P2). L
 ## Propiedad de archivos
 `demo-deteccion-drones-audio/` completo excepto `legacy/`, `data/raw/` (lo llena
 `gestor-descarga-datasets`), `scripts/data/` (H1) y `tests/` de infraestructura (H2).
-Entorno propio: `C:\Users\sebas\.venvs\p2-audio` (lo creas tú; mantienes `requirements.txt`).
+Entorno propio: `%USERPROFILE%\.venvs\p2-audio` (lo creas tú; mantienes `requirements.txt`).
 
 ## Entregables
 - `src/audio/`: carga WAV, remuestreo, segmentación en ventanas, log-mel y MFCC.

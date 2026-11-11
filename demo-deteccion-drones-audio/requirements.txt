@@ -1,5 +1,5 @@
 # P2 — clasificador acústico drone/no_drone (CPU, sin torch). Python 3.11.
-# Versiones probadas el 2026-11-11 en C:\Users\sebas\.venvs\p2-audio
+# Versiones probadas el 2026-11-11 en %USERPROFILE%\.venvs\p2-audio
 numpy==2.4.6
 scipy==1.17.1
 soundfile==0.14.0

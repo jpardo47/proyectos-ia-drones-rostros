@@ -19,17 +19,17 @@ deterministas y produce **alertas informativas que requieren revisión humana**.
 
 ## Instalación
 
-Entorno recomendado (fuera de OneDrive): `C:\Users\sebas\.venvs\p3-popayan`, Python 3.11.
+Entorno recomendado (fuera de OneDrive): `%USERPROFILE%\.venvs\p3-popayan`, Python 3.11.
 
 ```bash
 cd demo-localizacion-drones-popayan
-C:/Users/sebas/.venvs/p3-popayan/Scripts/python.exe -m pip install -r requirements.txt
+~/.venvs/p3-popayan/Scripts/python.exe -m pip install -r requirements.txt
 ```
 
 ## Comandos
 
 ```bash
-PY=C:/Users/sebas/.venvs/p3-popayan/Scripts/python.exe
+PY=~/.venvs/p3-popayan/Scripts/python.exe
 $PY app.py scenarios                              # lista de escenarios
 $PY app.py demo --scenario basico --seed 42       # ejecuta y resume (DATOS SIMULADOS)
 $PY app.py api --port 8000                        # API en http://127.0.0.1:8000/docs

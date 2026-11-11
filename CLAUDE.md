@@ -19,9 +19,9 @@ Carpetas antiguas: en `<proyecto>/legacy/`. No se borra nada sin revisar.
 
 ## Entornos (fuera de OneDrive, para no sincronizar miles de archivos)
 
-- P1: `C:\Users\sebas\.venvs\p1-uniface`
-- P2: `C:\Users\sebas\.venvs\p2-audio`
-- P3: `C:\Users\sebas\.venvs\p3-popayan`
+- P1: `%USERPROFILE%\.venvs\p1-uniface`
+- P2: `%USERPROFILE%\.venvs\p2-audio`
+- P3: `%USERPROFILE%\.venvs\p3-popayan`
 
 Python 3.11. Ejecutar siempre con `<venv>/Scripts/python.exe` desde la raíz del proyecto.
 Blender 4.4.3: `C:\Program Files\Blender Foundation\Blender 4.4\blender.exe` (instalado con
@@ -66,8 +66,8 @@ salida absolutas a Blender.
 
 ```bash
 cd demo-localizacion-drones-popayan
-C:/Users/sebas/.venvs/p3-popayan/Scripts/python.exe -m pytest
-C:/Users/sebas/.venvs/p3-popayan/Scripts/python.exe app.py demo --scenario basico --seed 42
-C:/Users/sebas/.venvs/p3-popayan/Scripts/python.exe app.py api
-C:/Users/sebas/.venvs/p3-popayan/Scripts/python.exe app.py dashboard
+~/.venvs/p3-popayan/Scripts/python.exe -m pytest
+~/.venvs/p3-popayan/Scripts/python.exe app.py demo --scenario basico --seed 42
+~/.venvs/p3-popayan/Scripts/python.exe app.py api
+~/.venvs/p3-popayan/Scripts/python.exe app.py dashboard
 ```

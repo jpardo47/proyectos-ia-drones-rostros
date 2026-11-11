@@ -122,8 +122,8 @@ def run_demo(scenario: str = "basico", seed: int = 42, db_path=..., reset: bool 
 
 ## Reglas comunes
 
-- Python 3.11, Pydantic v2. Entorno: `C:\Users\sebas\.venvs\p3-popayan` (fuera de OneDrive).
-  Ejecutable: `C:/Users/sebas/.venvs/p3-popayan/Scripts/python.exe`. No ejecutar `pip install`.
+- Python 3.11, Pydantic v2. Entorno: `%USERPROFILE%\.venvs\p3-popayan` (fuera de OneDrive).
+  Ejecutable: `~/.venvs/p3-popayan/Scripts/python.exe`. No ejecutar `pip install`.
 - Tests propios en `tests/<tu_modulo>/` (p. ej. `tests/remote_id/`), deterministas, sin red.
 - Texto visible al usuario en español. Todo dato simulado se etiqueta SIMULADO.
 - Prohibido: clasificar amenazas/hostilidad, ordenar acciones, deducir identidad de personas,

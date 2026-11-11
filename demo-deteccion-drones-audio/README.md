@@ -11,12 +11,12 @@ simulador de Popayán (P3) según `contracts/observation.schema.json`.
 ## Instalación (Windows, Python 3.11, entorno fuera de OneDrive)
 
 ```bash
-python -m venv C:/Users/sebas/.venvs/p2-audio
-C:/Users/sebas/.venvs/p2-audio/Scripts/python.exe -m pip install -r requirements.txt
+python -m venv ~/.venvs/p2-audio
+~/.venvs/p2-audio/Scripts/python.exe -m pip install -r requirements.txt
 ```
 
 Todos los comandos se ejecutan desde esta carpeta (`demo-deteccion-drones-audio/`). Abreviatura:
-`PY=C:/Users/sebas/.venvs/p2-audio/Scripts/python.exe`.
+`PY=~/.venvs/p2-audio/Scripts/python.exe`.
 
 ## Comandos
 

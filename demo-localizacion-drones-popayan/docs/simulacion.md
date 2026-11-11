@@ -8,7 +8,7 @@ no el alcance de ningún hardware.
 
 ```bash
 cd demo-localizacion-drones-popayan
-PY=C:/Users/sebas/.venvs/p3-popayan/Scripts/python.exe
+PY=~/.venvs/p3-popayan/Scripts/python.exe
 $PY -m src.simulation.cli --list
 $PY -m src.simulation.cli --scenario basico --seed 42 --out data/synthetic/examples/basico.json
 $PY -m pytest tests/simulation tests/blender

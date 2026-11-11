@@ -62,7 +62,7 @@ Las firmas exactas están en `demo-localizacion-drones-popayan/src/contracts/INT
    son la misma autodeclaración. La corroboración exige evidencia técnicamente independiente.
 9. **Alertas informativas.** Estado + motivo + evidencia + petición de revisión humana. Sin
    niveles de amenaza ni recomendaciones de acción.
-10. **Entornos fuera de OneDrive** (`C:\Users\sebas\.venvs\...`) para no sincronizar miles de
+10. **Entornos fuera de OneDrive** (`%USERPROFILE%\.venvs\...`) para no sincronizar miles de
     archivos. Los datasets sí quedan dentro de cada proyecto (`data/raw/`, ignorado por git).
 
 ## Límites declarados

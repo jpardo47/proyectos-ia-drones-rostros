@@ -6,13 +6,13 @@ Fecha: 2026-11-11. Responsable: `ingeniero-datos-skills` (H1). Ámbito: Skills d
 
 - Comando de verificación: `npx --yes skills list -g`
 - Salida real (fila relevante): `find-skills  ~\.claude\skills\find-skills  Agents: Claude Code  Source: vercel-labs/skills`
-- Archivo comprobado: `C:/Users/sebas/.claude/skills/find-skills/SKILL.md` (existe, 5 472 bytes).
+- Archivo comprobado: `~/.claude/skills/find-skills/SKILL.md` (existe, 5 472 bytes).
 - Evaluación de riesgo de la instalación original (informada por el coordinador, no repetida en esta sesión): Gen "Safe", Socket "0 alerts", Snyk "Med Risk".
 
 ## 2. Búsquedas realizadas
 
 Fuente: `npx skills find` ejecutado por el coordinador. Resultados en
-`C:/Users/sebas/AppData/Local/Temp/claude/7b6374240a92534b/32573b1a-01f4-4419-a89c-8e0a7e7a059e/scratchpad/skills_find.txt`.
+`<carpeta temporal de la sesión, no versionada>/skills_find.txt`.
 Las instalaciones son las que muestra skills.sh en esos resultados.
 
 | Tema buscado | Mejores resultados (instalaciones) | Decisión |
@@ -56,8 +56,8 @@ python-testing-patterns  ~\OneDrive\Escritorio\Proyectos_IA_Drones_Rostros\.clau
 ```
 
 Rutas exactas:
-- `C:/Users/sebas/OneDrive/Escritorio/Proyectos_IA_Drones_Rostros/.claude/skills/python-testing-patterns/`
-- `C:/Users/sebas/OneDrive/Escritorio/Proyectos_IA_Drones_Rostros/.claude/skills/github-actions-templates/`
+- `.claude/skills/python-testing-patterns/`
+- `.claude/skills/github-actions-templates/`
 
 Skills globales ya existentes (no instaladas por este agente, solo listadas): `find-skills`, `graphify`, `skill-inspector` en `~/.claude/skills/`.
 
@@ -65,7 +65,7 @@ Skills globales ya existentes (no instaladas por este agente, solo listadas): `f
 
 | Skill | Proyecto / agente | Uso concreto |
 |---|---|---|
-| python-testing-patterns | P1, P2 y P3 (los agentes de cada proyecto al escribir pruebas) | Organizar pruebas con pytest: fixtures, parametrización y mocks. P3 se ejecuta con `C:/Users/sebas/.venvs/p3-popayan/Scripts/python.exe -m pytest`. Las pruebas cuentan solo si se ejecutan y se pega su salida. |
+| python-testing-patterns | P1, P2 y P3 (los agentes de cada proyecto al escribir pruebas) | Organizar pruebas con pytest: fixtures, parametrización y mocks. P3 se ejecuta con `~/.venvs/p3-popayan/Scripts/python.exe -m pytest`. Las pruebas cuentan solo si se ejecutan y se pega su salida. |
 | github-actions-templates | Transversal (coordinador) | Borrador de `.github/workflows` con pytest por proyecto, solo cuando el coordinador lo pida. No se activa por defecto. Sin secretos reales en el repositorio. |
 
 Nota: las Skills instaladas durante una sesión pueden requerir reiniciar Claude Code para cargarse.

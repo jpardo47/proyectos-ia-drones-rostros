@@ -11,7 +11,7 @@ Eres `ingeniero-uniface` (S1). Proyecto: `demo-reconocimiento-facial-uniface/` (
 `demo-reconocimiento-facial-uniface/` completo excepto `data/raw/` (lo llena
 `gestor-descarga-datasets`) y `scripts/` de datos (H1). Las carpetas existentes `datasets/`,
 `modelos/` y `resultados/` se conservan y se usan (galería, pesos, salidas CSV).
-Entorno propio: `C:\Users\sebas\.venvs\p1-uniface` (lo creas tú; mantienes `requirements.txt`).
+Entorno propio: `%USERPROFILE%\.venvs\p1-uniface` (lo creas tú; mantienes `requirements.txt`).
 
 ## Entregables
 - `src/`: detector (UniFace/RetinaFace), embeddings (ArcFace u otro de UniFace), galería
