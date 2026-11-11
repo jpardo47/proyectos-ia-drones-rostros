@@ -12,7 +12,7 @@ Etiquetas: `IMPLEMENTADO_Y_PROBADO`, `IMPLEMENTADO_SIN_VALIDACION_COMPLETA`, `SI
 |---|---|---|
 | P1 `demo-reconocimiento-facial-uniface` | `IMPLEMENTADO_Y_PROBADO` (interfaz Streamlit: solo arranque) | 17 pruebas aprobadas; demo CLI detecta 1 rostro en la foto de muestra y escribe CSV; evaluación acotada en LFW |
 | P2 `demo-deteccion-drones-audio` | `IMPLEMENTADO_Y_PROBADO` con datos reales (dataset pequeño) | 26 pruebas aprobadas; entrenamiento y evaluación con 90 grabaciones reales |
-| P3 `demo-localizacion-drones-popayan` | `IMPLEMENTADO_Y_PROBADO` en modo simulación; Blender `BLOQUEADO` | 333 pruebas aprobadas y 1 saltada (incluye los 12 escenarios obligatorios); 10 escenarios de extremo a extremo; API y dashboard vistos funcionando |
+| P3 `demo-localizacion-drones-popayan` | `IMPLEMENTADO_Y_PROBADO` en modo simulación, incluidas las imágenes de Blender | 338 pruebas aprobadas, ninguna saltada (incluye los 12 escenarios obligatorios y la verificación de etiquetas YOLO contra píxeles); 10 escenarios de extremo a extremo; API y dashboard vistos funcionando |
 | Descargas | LFW y audio descargados y verificados; OSM y NASA pendientes a propósito | SHA256 de LFW comprobado; 90 WAV contados |
 
 ## Línea A — Descargas y Skills
@@ -32,7 +32,7 @@ geoespaciales: las encontradas tienen muy pocas instalaciones o autores sin repu
 | Agente responsable | Modelo realmente utilizado | Tarea | Estado | Dependencias | Archivos creados | Pruebas ejecutadas | Errores | Siguiente acción |
 |---|---|---|---|---|---|---|---|---|
 | Coordinador (sesión principal) | `claude-fable-5-2` | Contratos, interfaces, 7 nodos ficticios, entorno, integración y revisión | `IMPLEMENTADO_Y_PROBADO` | plan maestro | `src/contracts/*`, `contracts/observation.schema.json`, `data/stations/estaciones_ficticias.json`, `requirements.txt`, `pytest.ini` | Prueba de humo contrato ↔ JSON Schema; 10 escenarios de extremo a extremo; API en vivo con `curl`; dashboard en navegador | — | Decidir cambios de contrato propuestos (ver abajo) |
-| `ingeniero-simulacion-blender` | `claude-sonnet-5-5` | Simulador, sensores virtuales, Remote ID ficticio, 10 escenarios, CLI, Blender | Simulador `IMPLEMENTADO_Y_PROBADO` (`SIMULADO`); Blender `BLOQUEADO` | contratos | `src/simulation/*`, `blender/generate_scene.py`, `tests/simulation/`, `tests/blender/`, `docs/simulacion.md`, `data/synthetic/examples/basico.json` | 33 aprobadas, 1 saltada (imágenes de Blender); CLI `basico` semilla 42: 3 drones, 7 nodos, 2607 eventos | No hay `blender.exe`: la carpeta `C:\Program Files\Blender Foundation\Blender 4.4\` solo contiene `4.4\python` y `4.4\scripts`. `generate_scene.py` nunca se ha ejecutado y puede tener errores de API | Reinstalar Blender y ejecutar el generador y `pytest tests/blender` |
+| `ingeniero-simulacion-blender` | `claude-sonnet-5-5` | Simulador, sensores virtuales, Remote ID ficticio, 10 escenarios, CLI, Blender | Simulador `IMPLEMENTADO_Y_PROBADO` (`SIMULADO`); Blender `IMPLEMENTADO_Y_PROBADO` tras la corrección del coordinador | contratos; Blender 4.4.3 | `src/simulation/*`, `blender/generate_scene.py`, `tests/simulation/`, `tests/blender/`, `docs/simulacion.md`, `data/synthetic/examples/basico.json`, `data/synthetic/examples/blender/` (4 PNG + 4 etiquetas + manifiesto) | Simulación: 23 aprobadas. Blender: 15 aprobadas. CLI `basico` semilla 42: 3 drones, 7 nodos, 2607 eventos | El agente no pudo ejecutar Blender (no había `blender.exe`). Tras instalar Blender 4.4.3 con winget, el coordinador ejecutó el generador: el motor Workbench cerró Blender por un fallo de shaders, y la ruta relativa de salida dejó los PNG fuera del proyecto. Reasignación documentada: el coordinador cambió el render a Cycles por CPU, la ruta a absoluta y la caja a los vértices reales, y añadió una prueba que contrasta cada etiqueta con los píxeles (desvío máximo 2,6 px) | Generar más variedad (fondos, distancias, oclusiones) si se quiere usar para entrenar |
 | `ingeniero-remote-id` | `claude-opus-5-5` | Parser, validación, conversión, agentes de ingesta y validación, adaptadores | `IMPLEMENTADO_Y_PROBADO`; adaptador de recepción física `PREPARADO_NO_EJECUTADO` a propósito (solo interfaz) | contratos | `src/remote_id/*`, `src/ingestion/*`, `data/examples/remote_id/*.jsonl`, `docs/adaptador-recepcion.md`, `tests/remote_id/`, `tests/ingestion/` | 189 aprobadas | — | — |
 | `ingeniero-fusion-decisiones` | `claude-opus-5-5` | Deduplicación, correlación, seguimiento, motor de estados, alertas, auditoría | `IMPLEMENTADO_Y_PROBADO` | contratos; ingesta | `src/correlation/*`, `src/tracking/*`, `src/decision_agents/*`, `src/audit/*`, `docs/motor-decisiones.md`, tests correspondientes | 61 aprobadas, incluidas 5 regresiones de fragmentación | Primera versión: 294 tracks para 3 drones (cada detección de radar anónima abría un track). Detectado en la integración, devuelto al agente y corregido: 11 tracks, 33 decisiones, 10 alertas | Afinar la puerta de asociación: quedan 3 tracks de radar de 1–2 puntos y 15 observaciones sin asociar por ambigüedad en `basico` |
 | `ingeniero-api-dashboard` | `claude-sonnet-5-5` | SQLite, registro de estaciones, orquestación, API, dashboard, `app.py`, README | API y almacenamiento `IMPLEMENTADO_Y_PROBADO`; dashboard `IMPLEMENTADO_SIN_VALIDACION_COMPLETA` | contratos; los otros tres módulos | `src/storage/*`, `src/stations/*`, `src/orchestration/*`, `src/api/*`, `src/dashboard/app.py`, `app.py`, `README.md`, tests correspondientes | 35 aprobadas. Coordinador: servidor real en el puerto 8011 (`/health`, estaciones, GeoJSON sin `INST-SIM`, 401 sin token, 422 para audio con coordenadas); dashboard abierto en navegador (mapa con teselas OSM, banner SIMULADO, 6 pestañas, formulario de revisión) | El dashboard escuchaba en todas las interfaces de red; el coordinador lo limitó a `127.0.0.1` en `app.py` | Probar a mano la revisión de una alerta y las descargas desde el navegador |
@@ -70,7 +70,7 @@ rendimiento real.
 
 | Agente responsable | Modelo realmente utilizado | Tarea | Estado | Archivos | Pruebas ejecutadas | Siguiente acción |
 |---|---|---|---|---|---|---|
-| `ingeniero-qa-devops` | `claude-haiku-5-5` | 12 escenarios obligatorios como pruebas de integración, CI | Pruebas `IMPLEMENTADO_Y_PROBADO`; workflows `PREPARADO_NO_EJECUTADO` | P3 `tests/integration/test_escenarios_obligatorios.py` y `conftest.py`; `.github/workflows/p1-uniface.yml`, `p2-audio.yml`, `p3-popayan.yml` | P1 17 aprobadas; P2 26 aprobadas; P3 333 aprobadas y 1 saltada (15 de integración, los 12 escenarios aprobados). Ruff en P3: 277 avisos de estilo, sin corregir | El agente no escribió `docs/reporte-pruebas.md`; lo redactó el coordinador con las salidas reales. Ejecutar los workflows al publicar en GitHub |
+| `ingeniero-qa-devops` | `claude-haiku-5-5` | 12 escenarios obligatorios como pruebas de integración, CI | Pruebas `IMPLEMENTADO_Y_PROBADO`; workflows `PREPARADO_NO_EJECUTADO` | P3 `tests/integration/test_escenarios_obligatorios.py` y `conftest.py`; `.github/workflows/p1-uniface.yml`, `p2-audio.yml`, `p3-popayan.yml` | P1 17 aprobadas; P2 26 aprobadas; P3 333 aprobadas y 1 saltada en su ejecución (15 de integración, los 12 escenarios aprobados); tras generar las imágenes de Blender, el coordinador obtuvo 338 aprobadas y 0 saltadas. Ruff en P3: 277 avisos de estilo, sin corregir | El agente no escribió `docs/reporte-pruebas.md`; lo redactó el coordinador con las salidas reales. Ejecutar los workflows al publicar en GitHub |
 
 ## Cómo se ejecutaron los subagentes
 
@@ -86,7 +86,9 @@ rendimiento real.
 
 ## Bloqueos reales
 
-1. **Blender.** No hay ejecutable. Sin él no existen imágenes sintéticas ni etiquetas YOLO reales.
+1. **Blender.** Resuelto el 2026-11-11: se instaló Blender 4.4.3 con winget (con autorización
+   del usuario) y se generaron 4 imágenes con etiquetas YOLO verificadas. Queda una limitación:
+   el motor Workbench no funciona en modo `--background` en este equipo; se usa Cycles por CPU.
 2. **GitHub.** `gh` no está instalado y no hay remoto configurado: nada se ha publicado. Todos los
    commits son locales, con autor único `jpardo47` y sin líneas de coautoría.
 3. **OneDrive.** La carpeta del proyecto se sincroniza con la nube: los ~390 MB de datasets y las
@@ -102,7 +104,6 @@ rendimiento real.
 
 ## Pendiente del plan maestro
 
-- Imágenes de Blender con etiquetas YOLO (bloqueado).
 - Publicación en GitHub (requiere autenticación y autorización expresa).
 - Antes de publicar: sustituir las rutas con el nombre de usuario local que aparecen en algunos
   README y docs.

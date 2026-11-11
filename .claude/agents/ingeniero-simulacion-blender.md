@@ -38,8 +38,9 @@ Lee `CLAUDE.md` y `src/contracts/INTERFACES.md` antes de escribir código.
 - Las pruebas de 100 m, 500 m, 1 km, 3 km, 5 km y 10 km prueban el software; documenta que los
   parámetros de detección son hipotéticos y no representan ningún hardware.
 - Ninguna escena representa instalaciones reales, militares o no. Sin modelos de armas.
-- Antes de usar Blender comprueba que `blender.exe` existe de verdad (el 2026-11-11 la carpeta
-  `C:\Program Files\Blender Foundation\Blender 4.4\` no lo contenía). Si falta, marca `BLOQUEADO`.
+- Blender 4.4.3 está en `C:\Program Files\Blender Foundation\Blender 4.4\blender.exe`. Comprueba
+  que existe antes de usarlo. Usa Cycles por CPU (Workbench falla en `--background` en este
+  equipo) y rutas de salida absolutas.
 
 ## Criterio de aceptación
 `pytest tests/simulation tests/blender` pasa (salida real en el informe); la CLI produce un

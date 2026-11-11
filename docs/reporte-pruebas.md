@@ -12,16 +12,34 @@ Para ver la línea de resumen hay que anular el `-q` de los `pytest.ini`: `-o ad
 |---|---|---|---|
 | P1 UniFace | `C:/Users/<usuario>/.venvs/p1-uniface/Scripts/python.exe -m pytest -o addopts="" -q -rs` | `17 passed` | 6–20 s |
 | P2 audio | `C:/Users/<usuario>/.venvs/p2-audio/Scripts/python.exe -m pytest -o addopts="" -q` | `26 passed, 1 warning` | ≈10 s |
-| P3 Popayán | `C:/Users/<usuario>/.venvs/p3-popayan/Scripts/python.exe -m pytest -o addopts="" -q -rs` | `333 passed, 1 skipped, 1 warning` | ≈5 min |
+| P3 Popayán | `C:/Users/<usuario>/.venvs/p3-popayan/Scripts/python.exe -m pytest -o addopts="" -q -rs` | `338 passed, 1 warning` (antes de generar las imágenes de Blender: `333 passed, 1 skipped`) | ≈5 min |
 | P3 solo integración | `... -m pytest tests/integration -o addopts="" -q -rs` | `15 passed` | ≈5,5 min |
 
 - Aviso (P2 y P3): deprecación de `httpx` dentro de `starlette.testclient`. No afecta al resultado.
-- Prueba saltada (P3): `tests/blender/test_blender_yolo.py` — no hay imágenes de Blender porque no
-  existe `blender.exe` en el equipo (`BLOQUEADO`).
+- Pruebas saltadas: ninguna en la última ejecución. `tests/blender/test_blender_yolo.py` se saltaba
+  mientras no hubo `blender.exe`; tras instalar Blender 4.4.3 y generar las imágenes, se ejecuta.
 - Fallos: ninguno.
 
-Desglose de P3: contratos e ingesta 189 · simulación y validador YOLO 33 (+1 saltada) · fusión,
+Desglose de P3: contratos e ingesta 189 · simulación 23 · Blender y validador YOLO 15 · fusión,
 seguimiento, decisiones y auditoría 61 · almacenamiento, API y orquestación 35 · integración 15.
+
+## Imágenes sintéticas de Blender
+
+Comando: `"C:/Program Files/Blender Foundation/Blender 4.4/blender.exe" --background --python
+blender/generate_scene.py -- --out data/synthetic/examples/blender --n 4 --seed 42`
+(Blender 4.4.3, Cycles por CPU, 32 muestras, 640×480).
+
+| Imagen | Caja etiquetada (px) | Dron medido en la imagen (px) | Desvío máximo |
+|---|---|---|---|
+| `drone_000.png` | (307,8 · 266,7 · 354,6 · 287,1) | (309 · 267 · 353 · 286) | 1,6 px |
+| `drone_001.png` | (290,7 · 252,8 · 331,6 · 265,1) | (293 · 254 · 329 · 264) | 2,6 px |
+| `drone_002.png` | (274,5 · 252,7 · 325,0 · 275,2) | (275 · 253 · 323 · 274) | 2,0 px |
+| `drone_003.png` | (344,2 · 267,5 · 446,9 · 342,9) | (345 · 268 · 445 · 341) | 1,9 px |
+
+La medición la hace `tests/blender/test_etiqueta_vs_pixeles.py` buscando el cuerpo naranja y las
+piezas oscuras del dron; tolerancia de la prueba: 4 px por borde. Dos incidencias en la primera
+ejecución, ya corregidas: el motor Workbench cerró Blender (fallo de compilación de shaders con el
+controlador gráfico) y la ruta de salida relativa dejó los PNG fuera del proyecto.
 
 ## Escenarios obligatorios (P3, módulos reales, sin dobles, semilla 42, base temporal)
 
@@ -74,7 +92,7 @@ El YAML carga correctamente, pero nunca han corrido en GitHub (no hay remoto ni 
 
 ## No probado
 
-- Imágenes y etiquetas YOLO de Blender (sin `blender.exe`).
+- Motor Workbench de Blender (falla en este equipo; se usa Cycles por CPU).
 - Workflows en GitHub.
 - Registrar la revisión de una alerta y descargar CSV/GeoJSON desde el dashboard con el ratón
   (la revisión y las exportaciones sí están cubiertas por pruebas de la API).
