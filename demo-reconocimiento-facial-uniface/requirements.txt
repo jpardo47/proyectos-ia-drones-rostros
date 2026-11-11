@@ -1,0 +1,8 @@
+uniface==4.3.0
+onnxruntime==1.31.1
+opencv-python-headless==5.0.0.93
+numpy==2.4.6
+pandas==3.1.1
+streamlit==1.67.0
+pytest==9.2.0
+scikit-image==0.26.0
