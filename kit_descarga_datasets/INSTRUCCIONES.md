@@ -1,57 +1,102 @@
-# Kit de descarga de datasets — Proyectos IA / Popayán
+# Kit de descarga de datasets: Proyectos IA / Popayán
 
-Este kit **no contiene los datasets**; descarga archivos desde sus fuentes cuando se ejecuta en un computador con internet. No necesitas instalar bibliotecas de Python adicionales para el descargador.
+Este kit **no contiene los datasets**. Descarga los archivos desde sus fuentes oficiales.
+Solo usa la biblioteca estándar de Python 3.10 o superior.
 
-## Descarga inicial recomendada
+## Destino
 
-1. Instala Python 3.10 o superior.
-2. Descomprime este kit.
-3. En Windows, haz doble clic en `DESCARGAR_BASICOS_WINDOWS.bat`. Alternativamente, abre una terminal en esta carpeta y ejecuta:
+Por defecto, los datos se guardan en la **carpeta padre de este kit** (la raíz de
+`Proyectos_IA_Drones_Rostros`). Ya no se intenta adivinar el Escritorio.
+Con `--dest "RUTA"` se usa otra carpeta raíz. Las rutas definitivas son:
+
+| Dataset | Ruta dentro de la raíz |
+|---|---|
+| LFW (rostros) | `demo-reconocimiento-facial-uniface/data/raw/lfw/` |
+| Audio de drones | `demo-deteccion-drones-audio/data/raw/DroneDetectionThesis/` |
+| Cartografía OSM Colombia | `demo-localizacion-drones-popayan/data/raw/` |
+
+**Aviso OneDrive:** la raíz del proyecto está dentro de OneDrive. Lo descargado se
+sincroniza con la nube. Los datasets están ignorados por git, pero sí se suben a OneDrive.
+
+## Uso básico
 
 ```bash
-python descargar_datasets.py --basicos
+python descargar_datasets.py            # igual que --basicos
+python descargar_datasets.py --basicos  # LFW + audio de drones (~392 MB)
 ```
 
-La descarga crea `Proyectos_IA_Drones_Rostros` en tu Escritorio (o, si no existe un Escritorio reconocible, en la carpeta actual). Puedes indicar una carpeta exacta con `--dest`.
+En Windows también puedes hacer doble clic en `DESCARGAR_BASICOS_WINDOWS.bat`.
 
-## Todas las descargas automáticas disponibles
+## Opciones
+
+| Opción | Qué hace |
+|---|---|
+| `--basicos` | LFW + audio de drones (por defecto). |
+| `--lfw` | Solo LFW (`lfw-funneled.tgz` ~233 MB + 3 archivos de pares). |
+| `--audio` | Solo audio de drones: 90 WAV, ~159 MB, sin videos. |
+| `--audio --muestra-audio N` | Solo los primeros N audios. |
+| `--osm` | Cartografía OSM Colombia (`colombia-latest.osm.pbf`, ~334 MB). |
+| `--todos` | LFW + audio + OSM. Supera 500 MB: exige `--permitir-grandes`. |
+| `--nasa` | No descarga nada. Registra el dataset NASA como omitido: su licencia no está especificada y pesa ~1.69 GB. |
+| `--verificar` | Solo comprueba URLs, tamaños y disponibilidad (GET con `Range: bytes=0-0`). No descarga nada y actualiza el registro. |
+| `--extraer` | Tras descargar LFW, extrae `lfw-funneled.tgz` con validación de rutas (nada sale del destino). |
+| `--permitir-grandes` | Permite lotes de más de 500 MB. |
+| `--dest RUTA` | Carpeta raíz de destino. |
+
+Ejemplos:
 
 ```bash
-python descargar_datasets.py --todos
-```
-
-Incluye LFW y audio desde GitHub, además de cartografía de toda Colombia (aprox. 318 MB). **La opción `--todos` no incluye NASA**, que debes solicitar aparte si te interesa, ya que su descarga puede cambiar de enlace y la licencia no está especificada.
-
-Otras opciones:
-
-```bash
-python descargar_datasets.py --lfw
+python descargar_datasets.py --verificar
+python descargar_datasets.py --lfw --extraer
 python descargar_datasets.py --audio
-python descargar_datasets.py --audio --muestra-audio 10
-python descargar_datasets.py --osm
-python descargar_datasets.py --nasa
-python descargar_datasets.py --todos --dest "D:\\Datasets_IA"
+python descargar_datasets.py --todos --permitir-grandes --dest "D:\Datasets_IA"
 ```
 
-Las descargas parciales o fallidas se pueden reintentar ejecutando nuevamente el comando. Los archivos completos no se descargan otra vez; LFW utiliza hashes SHA256 oficiales para comprobar integridad. Se crea un registro `descargas_manifest.json`.
+## Comportamiento
 
-## Qué descarga el kit
+- **Comprobación previa:** antes de descargar se consulta el tamaño y el estado HTTP. Se comprueba el
+  espacio libre del disco (con 1 GB de margen). Un lote de más de 500 MB se rechaza salvo `--permitir-grandes`.
+- **Reanudación:** un archivo interrumpido queda como `*.parcial`. La siguiente ejecución continúa
+  con `Range` si el servidor responde 206. Si responde 200, reinicia desde cero.
+- **Reintentos:** máximo 3 intentos por archivo, con espera de 5 s y 10 s.
+- **Integridad:** LFW se verifica con su SHA256 oficial. Los WAV se verifican por tamaño
+  (el de la API de GitHub) y se registra su SHA256.
+- **No repetir:** un archivo ya completo y verificado no se vuelve a descargar.
+- **Registro:** `kit_descarga_datasets/estado_descargas.json`, actualizado durante la descarga
+  (cada ~3 s). Manifiesto final: `kit_descarga_datasets/descargas_manifest.json`.
 
-- **LFW (rostros)**: archivo `lfw-funneled.tgz` + pares de evaluación, desde Figshare/Scikit-learn.
-- **Audio de drones**: consulta el árbol público de GitHub del repositorio DroneDetectionThesis/Drone-detection-dataset y descarga únicamente archivos de audio. No descarga sus 650 videos.
-- **OpenStreetMap Colombia**: archivo `colombia-latest.osm.pbf` desde Geofabrik, solo con `--todos` o `--osm`.
-- **NASA audio**: opción `--nasa` separada; la URL redirige al proveedor de almacenamiento y podría fallar temporalmente.
+## Seguimiento del progreso
 
-## Descargas que no son automáticas
+```bash
+python monitor_descargas.py --una-vez    # estado actual
+python monitor_descargas.py              # cada 15 s hasta que no quedan descargas activas
+python monitor_descargas.py --intervalo 5
+```
 
-- **SRTM (elevación)**: https://portal.opentopography.org/datasetMetadata?otCollectionID=OT.042013.4326.1 (escoge el área de interés y respeta requisitos de acceso).
-- **SIGPOP Popayán**: https://sig.popayan.gov.co/ (la posibilidad de exportar depende de la capa).
-- **OpenDroneID**: es software, no un dataset. https://github.com/opendroneid/opendroneid-core-c
-- **CelebA**: dataset grande de uso condicionado por su licencia y requisitos del sitio; no incluido en el descargador.
+El monitor escribe en `logs/descargas/monitor.log` (carpeta de la raíz del proyecto).
+
+Las descargas largas pueden lanzarse como proceso independiente, con su propio log:
+
+```powershell
+Start-Process -WindowStyle Hidden -FilePath python -ArgumentList '-u','descargar_datasets.py','--lfw','--extraer' `
+  -WorkingDirectory '<ruta del kit>' -RedirectStandardOutput '<raiz>\logs\descargas\lfw.log' `
+  -RedirectStandardError '<raiz>\logs\descargas\lfw.err' -PassThru
+```
+
+Un proceso lanzado así sigue mientras el equipo esté encendido y no se cierre la sesión.
+Cerrar Claude no lo detiene. Anota el PID que devuelve `-PassThru`.
+
+## Fuentes no automáticas
+
+- **SRTM (elevación):** https://portal.opentopography.org/datasetMetadata?otCollectionID=OT.042013.4326.1
+  (elige el área de interés y respeta los requisitos de acceso).
+- **SIGPOP Popayán:** https://sig.popayan.gov.co/ (la exportación depende de la capa).
+- **OpenDroneID:** es software, no un dataset. https://github.com/opendroneid/opendroneid-core-c
+- **CelebA:** dataset grande de uso condicionado por su licencia; no incluido.
 
 ## Importante
 
 - Los tamaños y enlaces externos pueden cambiar. La descarga requiere internet en TU equipo.
 - No compartas públicamente imágenes personales ni datos de instalaciones institucionales.
 - Las ubicaciones de estaciones del simulador deben ser ficticias, no datos operativos reales.
-- No incluyas los datasets grandes en tus repositorios GitHub.
+- No subas los datasets a repositorios git.

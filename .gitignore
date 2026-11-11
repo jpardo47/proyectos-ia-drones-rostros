@@ -47,3 +47,6 @@ descargas_manifest.json
 graphify-out/
 .DS_Store
 Thumbs.db
+
+# Estado local del descargador (rutas absolutas del equipo)
+kit_descarga_datasets/estado_descargas.json
