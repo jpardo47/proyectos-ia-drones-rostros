@@ -34,6 +34,11 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--out", required=True)
     p.add_argument("--n", type=int, default=4)
     p.add_argument("--seed", type=int, default=42)
+    # CYCLES por CPU es el valor por defecto porque no depende de la GPU ni de su controlador.
+    # BLENDER_WORKBENCH es más rápido, pero en algunos equipos sus shaders no compilan en modo
+    # --background y Blender se cierra (observado el 2026-11-11 con Blender 4.4.3 en Windows).
+    p.add_argument("--engine", choices=("CYCLES", "BLENDER_WORKBENCH"), default="CYCLES")
+    p.add_argument("--samples", type=int, default=32, help="muestras de Cycles")
     return p.parse_args(argv)
 
 
@@ -77,6 +82,12 @@ def build_world(rng: random.Random) -> None:
     world.color = (0.55, 0.74, 0.95)
     world.use_nodes = False
     bpy.context.scene.world = world
+    # Luz direccional genérica (necesaria en Cycles; Workbench la ignora).
+    sun_data = bpy.data.lights.new("sol", "SUN")
+    sun_data.energy = 3.0
+    sun = bpy.data.objects.new("sol", sun_data)
+    sun.rotation_euler = Euler((math.radians(50.0), 0.0, math.radians(30.0)))
+    bpy.context.collection.objects.link(sun)
 
 
 def build_drone(rng: random.Random):
@@ -107,8 +118,10 @@ def drone_bbox_ndc(scene, cam, parts):
     xs, ys, in_front = [], [], True
     for obj in parts:
         mw = obj.matrix_world
-        for c in obj.bound_box:
-            co = world_to_camera_view(scene, cam, mw @ Vector(c))
+        # Vértices reales de la malla (no las esquinas de la caja envolvente): la etiqueta queda
+        # ajustada a lo que se ve, también en piezas rotadas y en los rotores cilíndricos.
+        for v in obj.data.vertices:
+            co = world_to_camera_view(scene, cam, mw @ v.co)
             xs.append(co.x)
             ys.append(co.y)
             in_front = in_front and co.z > 0.0
@@ -144,19 +157,26 @@ def place_camera(scene, cam, root, parts, rng: random.Random, depsgraph_fn):
 
 def main() -> None:
     args = parse_args()
-    out = Path(args.out)
+    # Ruta absoluta: Blender no resuelve las rutas relativas de render contra el directorio actual.
+    out = Path(args.out).resolve()
     out.mkdir(parents=True, exist_ok=True)
     rng = random.Random(args.seed)
 
     bpy.ops.wm.read_factory_settings(use_empty=True)
     scene = bpy.context.scene
-    scene.render.engine = "BLENDER_WORKBENCH"
+    scene.render.engine = args.engine
     scene.render.resolution_x, scene.render.resolution_y = RES_X, RES_Y
     scene.render.resolution_percentage = 100
     scene.render.image_settings.file_format = "PNG"
-    scene.display.shading.light = "STUDIO"
-    scene.display.shading.color_type = "MATERIAL"
-    scene.display.shading.show_shadows = True
+    if args.engine == "CYCLES":
+        scene.cycles.device = "CPU"
+        scene.cycles.samples = args.samples
+        scene.cycles.use_denoising = False
+        scene.cycles.seed = args.seed
+    else:
+        scene.display.shading.light = "STUDIO"
+        scene.display.shading.color_type = "MATERIAL"
+        scene.display.shading.show_shadows = True
     scene.view_settings.view_transform = "Standard"
 
     build_world(rng)
@@ -171,7 +191,8 @@ def main() -> None:
         bpy.context.view_layer.update()
 
     manifest = {"descripcion": "Imagenes SINTETICAS (Blender, escena abstracta). Etiqueta YOLO: clase cx cy w h.",
-                "clases": ["drone"], "resolucion": [RES_X, RES_Y], "semilla": args.seed, "imagenes": []}
+                "clases": ["drone"], "resolucion": [RES_X, RES_Y], "semilla": args.seed,
+                "motor": args.engine, "blender": bpy.app.version_string, "imagenes": []}
     for i in range(args.n):
         root.location = (rng.uniform(-4, 4), rng.uniform(-4, 4), rng.uniform(10, 25))
         root.rotation_euler = Euler((math.radians(rng.uniform(-8, 8)), math.radians(rng.uniform(-8, 8)),

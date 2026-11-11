@@ -1,0 +1,59 @@
+{
+  "descripcion": "Imagenes SINTETICAS (Blender, escena abstracta). Etiqueta YOLO: clase cx cy w h.",
+  "clases": [
+    "drone"
+  ],
+  "resolucion": [
+    640,
+    480
+  ],
+  "semilla": 42,
+  "motor": "CYCLES",
+  "blender": "4.4.3",
+  "imagenes": [
+    {
+      "imagen": "drone_000.png",
+      "etiqueta": "drone_000.txt",
+      "yolo": [
+        0,
+        0.517488,
+        0.576848,
+        0.073164,
+        0.042557
+      ]
+    },
+    {
+      "imagen": "drone_001.png",
+      "etiqueta": "drone_001.txt",
+      "yolo": [
+        0,
+        0.486117,
+        0.539516,
+        0.063884,
+        0.025548
+      ]
+    },
+    {
+      "imagen": "drone_002.png",
+      "etiqueta": "drone_002.txt",
+      "yolo": [
+        0,
+        0.468359,
+        0.549892,
+        0.078973,
+        0.046862
+      ]
+    },
+    {
+      "imagen": "drone_003.png",
+      "etiqueta": "drone_003.txt",
+      "yolo": [
+        0,
+        0.618042,
+        0.635858,
+        0.160443,
+        0.157187
+      ]
+    }
+  ]
+}

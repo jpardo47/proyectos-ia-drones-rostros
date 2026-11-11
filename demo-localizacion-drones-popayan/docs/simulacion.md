@@ -57,13 +57,23 @@ x8) amplía los alcances para que el software reciba reportes a 10 km.
 ## Blender (imágenes sintéticas)
 
 `blender/generate_scene.py` genera escena abstracta (terreno, bloques tipo edificio, cielo, dron genérico
-de primitivas), render Workbench 640x480, `drone_NNN.png` + `drone_NNN.txt` (YOLO `0 cx cy w h`) y
-`manifest.json`, proyectando las cajas envolventes con `world_to_camera_view`:
+de primitivas), render 640x480, `drone_NNN.png` + `drone_NNN.txt` (YOLO `0 cx cy w h`) y
+`manifest.json`, proyectando los vértices del dron a la cámara con `world_to_camera_view`:
 
 ```bash
 "C:/Program Files/Blender Foundation/Blender 4.4/blender.exe" --background --python blender/generate_scene.py -- --out data/synthetic/examples/blender --n 4 --seed 42
 python -m src.simulation.yolo_validator data/synthetic/examples/blender
+python -m pytest tests/blender
 ```
+
+Motor de render: **Cycles por CPU** (`--engine CYCLES`, valor por defecto; `--samples 32`). Con
+`--engine BLENDER_WORKBENCH` el render es más rápido, pero en el equipo de desarrollo (Blender 4.4.3,
+Windows 11) sus shaders no compilan en modo `--background` y Blender se cierra con
+`EXCEPTION_ACCESS_VIOLATION`.
+
+Ejecutado el 2026-11-11: 4 imágenes (≈1–3 s cada una) en `data/synthetic/examples/blender/`.
+`tests/blender/test_etiqueta_vs_pixeles.py` localiza el dron en cada imagen por su color y comprueba
+que la caja etiquetada lo encierra de forma ajustada; desvío máximo medido: 2,6 px.
 
 No representa instalaciones reales ni militares ni incluye modelos de armas.
 
@@ -71,4 +81,4 @@ No representa instalaciones reales ni militares ni incluye modelos de armas.
 
 - No demuestra alcance real de ningún sensor; los parámetros son inventados para ejercitar el software.
 - El audio no produce coordenadas; RF no produce localización.
-- La imagen sintética de Workbench no sustituye datos reales para entrenar un detector.
+- Las imágenes sintéticas de Blender no sustituyen datos reales para entrenar un detector.
