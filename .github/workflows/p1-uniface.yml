@@ -1,0 +1,30 @@
+name: P1 UniFace (reconocimiento facial)
+
+on:
+  push:
+    paths:
+      - "demo-reconocimiento-facial-uniface/**"
+      - ".github/workflows/p1-uniface.yml"
+  pull_request:
+    paths:
+      - "demo-reconocimiento-facial-uniface/**"
+      - ".github/workflows/p1-uniface.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: demo-reconocimiento-facial-uniface
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+      - name: Pruebas sin pesos del modelo
+        run: pytest -q -m "not model"

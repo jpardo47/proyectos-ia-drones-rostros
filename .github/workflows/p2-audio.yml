@@ -1,0 +1,30 @@
+name: P2 deteccion de drones por audio
+
+on:
+  push:
+    paths:
+      - "demo-deteccion-drones-audio/**"
+      - ".github/workflows/p2-audio.yml"
+  pull_request:
+    paths:
+      - "demo-deteccion-drones-audio/**"
+      - ".github/workflows/p2-audio.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: demo-deteccion-drones-audio
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+      - name: Pruebas (audio sintetico; el dataset no esta en git)
+        run: pytest -q
