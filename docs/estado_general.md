@@ -70,7 +70,7 @@ rendimiento real.
 
 | Agente responsable | Modelo realmente utilizado | Tarea | Estado | Archivos | Pruebas ejecutadas | Siguiente acción |
 |---|---|---|---|---|---|---|
-| `ingeniero-qa-devops` | `claude-haiku-5-5` | 12 escenarios obligatorios como pruebas de integración, CI | Pruebas `IMPLEMENTADO_Y_PROBADO`; workflows `PREPARADO_NO_EJECUTADO` | P3 `tests/integration/test_escenarios_obligatorios.py` y `conftest.py`; `.github/workflows/p1-uniface.yml`, `p2-audio.yml`, `p3-popayan.yml` | P1 17 aprobadas; P2 26 aprobadas; P3 333 aprobadas y 1 saltada en su ejecución (15 de integración, los 12 escenarios aprobados); tras generar las imágenes de Blender, el coordinador obtuvo 338 aprobadas y 0 saltadas. Ruff en P3: 277 avisos de estilo, sin corregir | El agente no escribió `docs/reporte-pruebas.md`; lo redactó el coordinador con las salidas reales. Ejecutar los workflows al publicar en GitHub |
+| `ingeniero-qa-devops` | `claude-haiku-5-5` | 12 escenarios obligatorios como pruebas de integración, CI | Pruebas `IMPLEMENTADO_Y_PROBADO`; workflows `IMPLEMENTADO_Y_PROBADO` (los tres terminaron con éxito en GitHub Actions sobre el commit `a556bb0`) | P3 `tests/integration/test_escenarios_obligatorios.py` y `conftest.py`; `.github/workflows/p1-uniface.yml`, `p2-audio.yml`, `p3-popayan.yml` | P1 17 aprobadas; P2 26 aprobadas; P3 333 aprobadas y 1 saltada en su ejecución (15 de integración, los 12 escenarios aprobados); tras generar las imágenes de Blender, el coordinador obtuvo 338 aprobadas y 0 saltadas. Ruff en P3: 277 avisos de estilo, sin corregir | El agente no escribió `docs/reporte-pruebas.md`; lo redactó el coordinador con las salidas reales |
 
 ## Cómo se ejecutaron los subagentes
 
@@ -89,8 +89,10 @@ rendimiento real.
 1. **Blender.** Resuelto el 2026-11-11: se instaló Blender 4.4.3 con winget (con autorización
    del usuario) y se generaron 4 imágenes con etiquetas YOLO verificadas. Queda una limitación:
    el motor Workbench no funciona en modo `--background` en este equipo; se usa Cycles por CPU.
-2. **GitHub.** `gh` no está instalado y no hay remoto configurado: nada se ha publicado. Todos los
-   commits son locales, con autor único `jpardo47` y sin líneas de coautoría.
+2. **GitHub.** Resuelto el 2026-11-11: rama `main` subida a
+   `github.com/jpardo47/proyectos-ia-drones-rostros`. GitHub lista un único colaborador
+   (`jpardo47`) y ningún commit lleva líneas de coautoría. El repositorio se creó **público**; el
+   usuario decidió subirlo así y pasarlo a privado después. `gh` sigue sin instalar.
 3. **OneDrive.** La carpeta del proyecto se sincroniza con la nube: los ~390 MB de datasets y las
    13 248 imágenes de LFW también. Los entornos virtuales se pusieron fuera
    (`C:\Users\<usuario>\.venvs\`) para no sincronizar miles de archivos.
@@ -104,7 +106,7 @@ rendimiento real.
 
 ## Pendiente del plan maestro
 
-- Publicación en GitHub (requiere autenticación y autorización expresa).
+- Pasar el repositorio de GitHub a privado (lo hace el usuario en Settings → Danger Zone).
 - Las rutas con el nombre de usuario local ya se sustituyeron por `~/.venvs/...` y
   `%USERPROFILE%\.venvs\...` en los archivos actuales. Siguen presentes en commits anteriores del
   historial; si el repositorio llegara a hacerse público, habría que reescribir ese historial.

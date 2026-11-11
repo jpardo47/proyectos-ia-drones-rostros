@@ -87,15 +87,23 @@ en argumentos por defecto; `UP035` 10; `I001` 9 — orden de imports).
 
 ## Integración continua
 
-`.github/workflows/p1-uniface.yml`, `p2-audio.yml`, `p3-popayan.yml`: `PREPARADO_NO_EJECUTADO`.
-El YAML carga correctamente, pero nunca han corrido en GitHub (no hay remoto ni `gh`).
+`.github/workflows/p1-uniface.yml`, `p2-audio.yml`, `p3-popayan.yml`: `IMPLEMENTADO_Y_PROBADO`.
+Ejecutados en GitHub Actions el 2026-11-11 sobre el commit `a556bb0` (`ubuntu-latest`,
+Python 3.11, instalación limpia desde `requirements.txt`):
+
+| Workflow | Resultado | Ejecución |
+|---|---|---|
+| P1 UniFace (pruebas sin pesos del modelo) | `success` | 43101794422 |
+| P2 detección de drones por audio | `success` | 43101794251 |
+| P3 localización Popayán (ruff informativo + pytest con integración) | `success` | 43101794114 |
+
+En CI no hay Blender ni imágenes generadas fuera de las cuatro versionadas; P1 no descarga pesos.
 
 ## No probado
 
 - Motor Workbench de Blender (falla en este equipo; se usa Cycles por CPU).
-- Workflows en GitHub.
 - Registrar la revisión de una alerta y descargar CSV/GeoJSON desde el dashboard con el ratón
   (la revisión y las exportaciones sí están cubiertas por pruebas de la API).
 - Subir una foto en la interfaz Streamlit de P1 (solo se comprobó que arranca).
 - API de P2 como servidor en vivo (probada con `TestClient`).
-- Instalación limpia desde cero en otra máquina.
+- Instalación limpia en otra máquina Windows (en Linux la cubre la integración continua).
